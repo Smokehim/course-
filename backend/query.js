@@ -270,21 +270,25 @@ app.delete('/deleteSuggestion/:id',(req,res)=>{
 //answers
 
 app.post('/postAnswers',async(req,res)=>{
-     
-    const {usertext, userID} = req.body
-    if(!userID) return res.status(404).json({message:"not able to get questionID"})
+     const response = await ai.models.generateContent({
+    model: "gemini-2.0-flash",
+    contents: `You are a career guidance AI. Based on the user's interest, suggest the best suitable career path. User says: "${userInput}"`,
+    });
+    console.log(response.text)
+    // const {usertext, userID} = req.body
+    // if(!userID) return res.status(404).json({message:"not able to get questionID"})
     
    
-    const sql =`INSERT INTO Option(text, userID) VALUES ( ?)`
-    db.query(sql2,[text], (errors)=>{
-        if(errors) return res.status(400).json({message: "no Answers found"})
-        db.query(sql, [text], (error, result)=>{
-            if(error) return res.status(404).json({message:"not able to insert Answers", error}) 
-            if(!result.affectedRows) return res.status(400).json({message:"no rows affected"});
-            res.status(200).json({message:"Answers have been insert", result})
-        })
+    // const sql =`INSERT INTO Option(text, userID) VALUES ( ?)`
+    // db.query(sql2,[text], (errors)=>{
+    //     if(errors) return res.status(400).json({message: "no Answers found"})
+    //     db.query(sql, [text], (error, result)=>{
+    //         if(error) return res.status(404).json({message:"not able to insert Answers", error}) 
+    //         if(!result.affectedRows) return res.status(400).json({message:"no rows affected"});
+    //         res.status(200).json({message:"Answers have been insert", result})
+    //     })
         
-    })
+    // })
 })
 
 app.put('/putAnswers/:id',(req,res)=>{
@@ -401,7 +405,3 @@ db.connect(()=>{
 //         console.log("Suggestion table has been created")
 //     })
 // })
-
-
-
-
