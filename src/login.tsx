@@ -1,0 +1,115 @@
+import { FaApper, FaFacebook, FaInstagram } from "react-icons/fa"
+import { FaXTwitter } from "react-icons/fa6"
+import { useState } from "react"
+
+
+function Login(){
+     const [showLogin, setShowLogin] = useState(true);
+    
+    return(
+        <div className="layout">
+            <main className="flex justify-center">
+                <div className="flex justify-content-center p-9">
+                    {showLogin && (
+                        <form action="" className="flex-col p-2 border  w-100 border-gray-700 rounded-lg bg-gray-400 justify-center gap-3" method="post">
+                            <h1 className="text-2xl text-center">Login</h1>
+                            <div className="flex flex-col space-y-5 p-5">
+                                <h1 className="font-bold text-xl">Name</h1>
+                                <input
+                                 type="text"
+                                className="border border-gray-500 p-2 bg-white rounded-2xl hover:border-gray-800 h-10 w-full"
+                                placeholder="Name"
+                                />
+                            </div>
+
+                            <div className="flex flex-col space-y-5 p-5">
+                                <h1 className="font-bold text-xl">Email</h1>
+                                <input
+                                type="email"
+                                className="border border-gray-500 p-2 bg-white rounded-2xl hover:border-gray-800 h-10 w-full"
+                                placeholder="Email"
+                                    />
+                            </div>  
+                            <div className="flex flex-col space-y-5 p-5">
+                                <h1 className="font-bold text-xl">Password</h1>
+                                <input
+                                type="password"
+                                className="border border-gray-500 p-2 bg-white rounded-2xl hover:border-gray-800 h-10 w-full"
+                                placeholder="Password"
+                                />
+                            </div> 
+                            <div className="flex gap-5 ">
+                                <div className="flex gap-3">
+                                    <input type="checkbox" name="" id="" />
+                                    <p>Kep me logged in</p>
+                                </div>
+                                <p className="text-left hover:text-blue-600 text-lg"><a  href="">forget password</a></p>
+                            </div>
+                            <div className="flex justify-center">
+                                <button className="border border-gray-800 text-white rounded-3xl h-10 w-60 px-10 bg-gray-800 hover:border-blue-700 hover:bg-blue-700 font-semibold">Login</button> 
+                            </div>
+                            <div className="flex">
+                                <p>Don't have an accout</p> 
+                                <p className="text-blue-600 hover:cursor-pointer font-lg" onClick={()=>{setShowLogin(false)}}><a href=""></a>Create account</p>
+                            </div>
+                            <p>continue with</p>
+                            <div className="flex justify-center gap-5 p-4">
+                                <FaFacebook size={40}/>
+                                <FaInstagram size={40}/>
+                                <FaXTwitter size={40}/>
+                                <FaApper size={40}/>
+                            </div>
+                            
+                        </form>
+                         )}
+                          {!showLogin && (
+                        <form action="" className="flex-col p-2 border w-100 border-gray-700 rounded-lg bg-gray-400 justify-center gap-3" method="post">
+                            <h1 className="text-3xl font-bold text-center">Signin</h1>
+                            <div className="flex flex-col space-y-5 p-5">
+                                <h1 className="font-bold text-xl">Name</h1>
+                                <input
+                                 type="text"
+                                className="border border-gray-500 p-2 bg-white rounded-2xl hover:border-gray-800 h-10 w-full"
+                                placeholder="Name"
+                                />
+                            </div>
+
+                            <div className="flex flex-col space-y-5 p-5">
+                                <h1 className="font-bold text-xl">Email</h1>
+                                <input
+                                type="email"
+                                className="border border-gray-500 p-2 bg-white rounded-2xl hover:border-gray-800 h-10 w-full"
+                                placeholder="Email"
+                                    />
+                            </div>  
+                            <div className="flex flex-col space-y-5 p-5">
+                                <h1 className="font-bold text-xl">Password</h1>
+                                <input
+                                type="password"
+                                className="border border-gray-500 p-2 bg-white rounded-2xl hover:border-gray-800 h-10 w-full"
+                                placeholder="Password"
+                                />
+                            </div> 
+                            
+                            <div className="flex justify-center">
+                                <button className="border border-gray-800 text-white rounded-3xl h-10 w-60 px-10 bg-gray-800 hover:border-blue-700 hover:bg-blue-700 font-semibold">Login</button> 
+                            </div>
+                            <div className="flex justify-center">
+                                <p>Have an accout</p> 
+                                <p className="text-blue-600 hover:cursor-pointer font-lg" onClick={()=>{setShowLogin(true)}}><a href="">Signin</a></p>
+                            </div>
+                            <p className="text-center">continue with</p>
+                            <div className="flex justify-center gap-5 p-4">
+                                <FaFacebook size={40}/>
+                                <FaInstagram size={40}/>
+                                <FaXTwitter size={40}/>
+                                <FaApper size={40}/>
+                            </div>
+                        </form>
+                         )}
+                    </div>
+            </main>
+        </div>
+    )
+}
+export default Login
