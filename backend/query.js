@@ -1,5 +1,7 @@
 import express from 'express'
 import mysql2 from 'mysql2'
+import bcrpt from 'bcrypt'
+import jsonwebtoken from 'jsonwebtoken'
 import { GoogleGenAI } from "@google/genai";
 
 const app = express()
@@ -20,6 +22,16 @@ const db = mysql2.createConnection({
     database: 'CareerCampus'
 })
 //users
+app.post('/login',(req,res)=>{
+    const {username, email, password, role} = req.body
+    const sql =`INSERT INTO Users(username, email, password, role) VALUES (?, ?, ?, ?)`
+    db.query(sql,[username, email, password, role], async(error,result)=>{
+        if(error) return res.status(404).json({message:"not able to insert users", error}) 
+        if(!affectedRows) return res.status(404).json({message:"not affectedrows", affectrows}) 
+        const users = await bcrpt.compare(password, result[0].password) 
+        res.status(200).json({message:"users have been insert", users})
+    }) 
+})
 app.post('/postusers',(req,res)=>{
     const {username, email, password, role} = req.body
     const sql =`INSERT INTO Users(username, email, password, role) VALUES (?, ?, ?, ?)`
