@@ -14,26 +14,26 @@ export default function Navbar() {
             </div>
             {/* desktop */}
             <ul className="hidden md:flex space-x-4 ">
-                <li><a href="#" className="hover:text-blue-300"><Link to="/home">Home</Link></a></li>
-                <li><a href="#" className="hover:text-blue-300"><Link to="/about">About</Link></a></li>
-                <li><a href="#" className="hover:text-blue-300"><Link to="/course">Course</Link></a></li>
-                <li><a href="#" className="hover:text-blue-300"><Link to="/service">Service</Link></a></li>
-                <li><a href="#" className="hover:text-blue-300"><Link to="/contact">Contact</Link></a></li>
+                <li className="hover:text-blue-300"><Link to="/home">Home</Link></li>
+                <li className="hover:text-blue-300"><Link to="/about">About</Link></li>
+                <li className="hover:text-blue-300"><Link to="/course">Course</Link></li>
+                <li className="hover:text-blue-300"><Link to="/service">Service</Link></li>
+                <li className="hover:text-blue-300"><Link to="/contact">Contact</Link></li>
                 
             </ul> 
-            <button className="hidden md:flex border border-gray-800 text-white rounded-3xl h-10 w-30 bg-gray-800 hover:border-blue-700 hover:bg-blue-700 font-semibold">Login</button>
+            <button className="hidden md:flex border border-gray-800 text-white rounded-3xl h-10 w-30 bg-gray-800 hover:border-blue-700 hover:bg-blue-700 font-semibold"><Link to="/login">Login</Link></button>
             <FaBars className="flex md:hidden" onClick={toggleMenu}/>
         </nav>
         {/* mobile */}
         {isOpen && (
             <div className="flex md:hidden">
                 <ul className="flex-col justify-center p-5 space-y-5 ">
-                    <li><a href="#" className="hover:text-blue-300 text-2xl"><Link to="/home">Home</Link></a></li>
-                    <li><a href="#" className="hover:text-blue-300 text-2xl"><Link to="/about">About</Link></a></li>
-                    <li><a href="#" className="hover:text-blue-300 text-2xl"><Link to="/course">Course</Link></a></li>
-                    <li><a href="#" className="hover:text-blue-300 text-2xl"><Link to="/service">Service</Link></a></li>
-                    <li><a href="#" className="hover:text-blue-300 text-2xl"><Link to="/contact">Contact</Link></a></li>
-                    <div className=""><button className="border border-gray-800 text-white rounded-3xl h-10 w-30 bg-gray-800 hover:border-blue-700 hover:bg-blue-700 font-semibold">Login</button> </div>
+                    <li className="hover:text-blue-300"><Link to="/home">Home</Link></li>
+                <li className="hover:text-blue-300"><Link to="/about">About</Link></li>
+                <li className="hover:text-blue-300"><Link to="/course">Course</Link></li>
+                <li className="hover:text-blue-300"><Link to="/service">Service</Link></li>
+                <li className="hover:text-blue-300"><Link to="/contact">Contact</Link></li>
+                    <div className=""><button className="border border-gray-800 text-white rounded-3xl h-10 w-30 bg-gray-800 hover:border-blue-700 hover:bg-blue-700 font-semibold"><Link to="/login">Login</Link></button> </div>
                 </ul> 
                 
             </div>

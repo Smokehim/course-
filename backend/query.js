@@ -2,9 +2,12 @@ import express from 'express'
 import mysql2 from 'mysql2'
 import bcrpt from 'bcrypt'
 import jsonwebtoken from 'jsonwebtoken'
+import dotenv from 'dotenv'
+import crypto, { hash } from 'crypto'
 import { GoogleGenAI } from "@google/genai";
-
+import cors from 'cors'
 const app = express()
+app.use(cors({origin:'http://localhost:5173'}));
 app.use(express.json())
 app.use(express.urlencoded({extended:true}))
 const port = process.env.PORT || 1000
@@ -12,6 +15,7 @@ app.listen(port, (result, error)=>{
     if(error)return console.log("not able to connect to port") 
     console.log("port connected")
 })
+
 const ai = new GoogleGenAI({ apiKey: "AIzaSyC7HxWo_6sW8UuP2DcRr4VvUvCuVVkznMo" });
 const userInput = "I am interested in technology and enjoy problem-solving. I also like working with people and have good communication skills. What career path should I consider?";
 
@@ -22,32 +26,53 @@ const db = mysql2.createConnection({
     database: 'CareerCampus'
 })
 //users
-app.post('/login',(req,res)=>{
-    const {username, email, password, role} = req.body
-    const sql =`INSERT INTO Users(username, email, password, role) VALUES (?, ?, ?, ?)`
-    db.query(sql,[username, email, password, role], async(error,result)=>{
+app.post('/login',async (req,res)=>{
+    const {username, email, password} = req.body
+    
+    if(!username || !email || !password) return res.status(404).json({message:"there is no user infor"})
+
+    const sql =`SELECT * FROM Users WHERE email = ?`
+    db.query(sql,[ email], async(error,result)=>{
         if(error) return res.status(404).json({message:"not able to insert users", error}) 
-        if(!affectedRows) return res.status(404).json({message:"not affectedrows", affectrows}) 
-        const users = await bcrpt.compare(password, result[0].password) 
-        res.status(200).json({message:"users have been insert", users})
+        if (result.length === 0) {
+            return res.status(401).json({ message: "Invalid email or password" });
+        }
+        
+        const newdata = bcrpt.compare(password, result.password)
+        if (!newdata) {
+            return res.status(401).json({ message: "Invalid email or password" });
+        }
+        res.status(200).json({
+            message: "Login successful",
+            result: {
+                id: result.id,
+                username: result.username,
+                email: result.email,
+                role: result.role,
+            },
+        });
     }) 
 })
-app.post('/postusers',(req,res)=>{
+
+app.post('/signin', async (req,res)=>{
     const {username, email, password, role} = req.body
+    if(!username || !email) return res.status(401).json({message:"no password or email, name"})
     const sql =`INSERT INTO Users(username, email, password, role) VALUES (?, ?, ?, ?)`
 
     db.query(sql,[username, email, password, role], (error,result)=>{
         if(error) return res.status(404).json({message:"not able to insert users", error}) 
-        if(!affectedRows) return res.status(404).json({message:"not affectedrows", affectrows}) 
+        if(!result.affectedRows) return res.status(404).json({message:"not affectedrows", affectrows}) 
         res.status(200).json({message:"users have been insert", result})
     })
 })
+
 app.put('/putusers/:id',(req,res)=>{
     const {username, email, password, role, userID} = req.body
     if(!userID) return res.status(404).json({message:"not able to get userID"})
     const sql =`UPDATE Users SET username=  COALESCE (?, username), email=COALESCE (?, email), password=COALESCE (?, password), role=COALESCE (?, role) WHERE userID=?`
     db.query(sql,[username, email, password, role, userID], (error,result)=>{
-        if(error) return res.status(404).json({message:"not able to update users", error}) 
+        if(error) return res.status(404).json({message:"not able to update users", error})
+        if(!result.affectedRows) return res.status(400).json({message:"no rows affected"});
         res.status(200).json({message:"users have been updated", result})
     })
 })

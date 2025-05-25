@@ -3,8 +3,29 @@ import './App.css'
 import Cards from './componets/cardinfor.tsx'
 import Footer from './componets/footer.tsx'
 import CardCourse from './componets/cardpopula.tsx'
+import { useEffect, useState } from 'react'
 function App() {
  
+  const [userName, getName] = useState('')
+  
+  useEffect( ()=>{
+    const fetcheruser = async () => {
+      try {
+      const getdata = await fetch('http://localhost:1000/getusers')
+      .then(response => {
+        if (!response.ok) return Promise.reject(response)
+        return response.json()
+      })
+      .then(datas => {
+        getName(datas)
+        console.log("here is your", datas)
+      })
+    } catch (error) {
+      console.log("not able to get username",error)
+    }
+    }
+    fetcheruser()
+  }, [])
 
   return (
     <div className="layout">
