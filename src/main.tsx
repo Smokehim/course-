@@ -8,6 +8,7 @@ import Course from './course.tsx'
 import Service from './service.tsx'
 import Contact from './contacts.tsx'
 import Login from './login.tsx'
+import Setting from './user.tsx'
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <BrowserRouter>
@@ -18,6 +19,7 @@ createRoot(document.getElementById('root')!).render(
       <Route path="/service" element={<Service />} />
       <Route path="/contact" element={<Contact />} />
       <Route path="/login" element={<Login />} />
+      <Route path="/setting" element={<Setting />} />
     </Routes>
     </BrowserRouter>
   </StrictMode>,

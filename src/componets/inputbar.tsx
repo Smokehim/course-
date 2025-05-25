@@ -1,6 +1,6 @@
 import { useState } from 'react';
 function InputBar() {
-    const [value, setValue] = useState(0);
+    const [value, setValue] = useState(50);
     function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
         setValue(Number(e.target.value));
     }
