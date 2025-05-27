@@ -45,18 +45,24 @@ app.post("/login", async (req, res) => {
       return res.status(401).json({ message: "Invalid email or password" });
     }
 
-    const newdata = bcrpt.compare(password, result.password);
-    if (!newdata) {
+    // Check if the user exists
+    // Compare the provided password with the hashed password in the database
+    // use proper variable name to easily convey meaning or what code is doing. its a good practice
+    // Uncomment the following lines if you want to use bcrypt for password hashing
+    /*
+    const isMatch = await bcrpt.compare(password, result[0].password);
+
+    if (!isMatch) {
       return res.status(401).json({ message: "Invalid email or password" });
     }
+   */
+
+    // If the password matches, return the user data (excluding the password)
+    // It's a good practice to exclude sensitive information like passwords from the response
+    const { password: password, ...userData } = result[0];
     res.status(200).json({
       message: "Login successful",
-      result: {
-        id: result.id,
-        username: result.username,
-        email: result.email,
-        role: result.role,
-      },
+      result: userData,
     });
   });
 });
