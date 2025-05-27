@@ -25,8 +25,8 @@ const userInput =
 const db = mysql2.createConnection({
   user: "root",
   host: "localhost",
-  password: "Squiddy",
-  database: "career_campus",
+  password: "",
+  database: "careercampus",
 });
 //users
 app.post("/login", async (req, res) => {
@@ -49,13 +49,13 @@ app.post("/login", async (req, res) => {
     // Compare the provided password with the hashed password in the database
     // use proper variable name to easily convey meaning or what code is doing. its a good practice
     // Uncomment the following lines if you want to use bcrypt for password hashing
-    /*
+    
     const isMatch = await bcrpt.compare(password, result[0].password);
 
     if (!isMatch) {
       return res.status(401).json({ message: "Invalid email or password" });
     }
-   */
+   
 
     // If the password matches, return the user data (excluding the password)
     // It's a good practice to exclude sensitive information like passwords from the response
