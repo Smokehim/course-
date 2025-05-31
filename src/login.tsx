@@ -1,9 +1,10 @@
 import { FaApper, FaFacebook, FaInstagram } from "react-icons/fa"
 import { FaXTwitter } from "react-icons/fa6"
-import { useEffect, useState } from "react"
+import { useEffect, useState, useContext } from "react"
 import { useNavigate } from "react-router";
+import { ContextLog } from "./componets/contextlog";
 
-
+const {setLoging} = useContext(ContextLog);
 
 function Login(){
     const navigate = useNavigate();
@@ -29,6 +30,7 @@ function Login(){
                 if (postdata.ok) {
                          // Successful login: redirect to home
                     navigate("/home");
+                    setLoging(true);
                 } else {
                      const data = await postdata.json();
                     alert(data.message);

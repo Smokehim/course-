@@ -1,5 +1,6 @@
  import {FaAirbnb, FaElementor}  from "react-icons/fa"
 import { FaChartSimple, FaPerson } from "react-icons/fa6"
+import { Link } from "react-router"
 
 
  function CardInfo({dark = false}) {
@@ -30,8 +31,8 @@ import { FaChartSimple, FaPerson } from "react-icons/fa6"
         },
          {
             icon: <FaElementor size={34}/>,
-            title: "Mentorship",
-            description: "Best Mentorship",
+            title: "Select Best Course",
+            description: "Best Course Selection",
             color: "text-purple-500",
             bg: "bg-purple-100", 
             darkBg: "bg-gray-800",
@@ -47,7 +48,7 @@ import { FaChartSimple, FaPerson } from "react-icons/fa6"
                         <div className={`text-2xl ${iterm.color}`}>{iterm.icon}</div>
                         <div className={`${iterm.baseline}`}>
                             <h3 className={`font-semibold ${dark ? 'text-white' : 'text-black'}`}>{iterm.title}</h3>
-                            <p className={`${dark ? 'text-gray-300' : 'text-gray-600'}`}>{iterm.description}</p>
+                            <p className={`${dark ? 'text-gray-300' : 'text-gray-600'} hover:cursor-pointer`}>{iterm.description}</p>
                         </div>
                     </div>
                 ))}
