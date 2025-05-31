@@ -17,7 +17,7 @@ export default function Navbar() {
                 <li className="hover:text-blue-300"><Link to="/home">Home</Link></li>
                 <li className="hover:text-blue-300"><Link to="/about">About</Link></li>
                 <li className="hover:text-blue-300"><Link to="/course">Course</Link></li>
-                <li className="hover:text-blue-300"><Link to="/service">Service</Link></li>
+                <li className="hover:text-blue-300"><Link to="/service">Career</Link></li>
                 <li className="hover:text-blue-300"><Link to="/contact">Contact</Link></li>
                 
             </ul> 
@@ -31,7 +31,7 @@ export default function Navbar() {
                     <li className="hover:text-blue-300"><Link to="/home">Home</Link></li>
                 <li className="hover:text-blue-300"><Link to="/about">About</Link></li>
                 <li className="hover:text-blue-300"><Link to="/course">Course</Link></li>
-                <li className="hover:text-blue-300"><Link to="/service">Service</Link></li>
+                <li className="hover:text-blue-300"><Link to="/service">Career</Link></li>
                 <li className="hover:text-blue-300"><Link to="/contact">Contact</Link></li>
                     <div className=""><button className="border border-gray-800 text-white rounded-3xl h-10 w-30 bg-gray-800 hover:border-blue-700 hover:bg-blue-700 font-semibold"><Link to="/login">Login</Link></button> </div>
                 </ul> 

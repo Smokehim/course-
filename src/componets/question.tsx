@@ -1,4 +1,5 @@
-const data=[
+import { useEffect, useState } from "react";
+const fallbackData=[
   {
     question: "What activity do you enjoy the most?",
     options: [
@@ -147,27 +148,114 @@ const data=[
 
 
 
-function Quick(){
+function Quick() {
+  const [questions, setQuestions] = useState([]);
+  const [selected, setSelected] = useState({}); // { [questionID]: optionID }
+  const [analysis, setAnalysis] = useState(""); // <-- Add state for analysis
+  const [readableAnswers, setReadableAnswers] = useState([]); // <-- Add state for readable answers
 
-    return(
-        <div className="md:grid md:grid-cols-3 grid-cols-1 gap-3">
-            {data.map((item, index)=>(
-                <div key={index} className="flex flex-col gap-2">
-                    <div className="flex gap-3 text-xl">
-                        <p>{index}</p>  
-                        <h1>{item.question}</h1>
-                    </div>
-                    <ul className="gap-2">
-                        <li className="gap-2">{item.options.map((items,indexz)=>(
-                            <div key={indexz} className="flex gap-3">
-                                <input type="checkbox" name={items.type} id={items.type} />
-                                <p >{items.text}</p>
-                            </div>
-                        ))}</li>
-                    </ul>
-                </div>
-            ))}
-        </div>
-    )
+  useEffect(() => {
+  
+      const fetcher = async () =>{
+        try {
+          const res = await fetch("http://localhost:1000/questionsAnswers", {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json"
+            }
+          });
+          const data = await res.json();
+          if (Array.isArray(data) && data.length > 0) {
+            setQuestions(data);
+          } else if (Array.isArray(data.result) && data.result.length > 0) {
+            setQuestions(data.result);
+          } else {
+            setQuestions(fallbackData);
+          }
+        } catch (err) {
+          console.warn("API failed. Using local fallback data.", err);
+          setQuestions(fallbackData);
+        }
+      }
+      fetcher()
+  }, []);
+
+  const handleSelect = (questionID, optionID) => {
+    setSelected(prev => ({ ...prev, [questionID]: optionID }));
+  };
+
+  const handleSubmit = async () => {
+    const answers = Object.entries(selected).map(([questionID, optionID]) => ({
+      questionID,
+      optionID,
+    }));
+
+    try {
+      const res = await fetch("http://localhost:1000/submitAnswers", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ answers }),
+      });
+      const data = await res.json();
+      setAnalysis(data.analysis); // <-- Store Gemini's analysis
+      setReadableAnswers(data.readableAnswers); // <-- Store readable Q&A
+      console.log(data.message || "Submitted!");
+    } catch (err) {
+      alert("Submission failed.");
+    }
+  };
+
+  return (
+    <div>
+      <div className="md:grid md:grid-cols-3 grid-cols-1 gap-3">
+        {questions.map((item, index) => (
+          <div key={item.questionID || index} className="flex flex-col gap-2">
+            <div className="flex gap-3 text-xl">
+              <p>{index + 1}</p>
+              <h1>{item.question}</h1>
+            </div>
+            <ul className="gap-2">
+              {item.options && item.options.map((option, idx) => (
+                <li key={option.optionID || idx} className="flex gap-3">
+                  <input
+                    type="radio"
+                    name={`question-${item.questionID || index}`}
+                    id={option.optionID || `option-${idx}`}
+                    checked={selected[item.questionID] === option.optionID}
+                    onChange={() => handleSelect(item.questionID, option.optionID)}
+                  />
+                  <p>{option.text}</p>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+      <div className="flex justify-center">
+        <button
+        className=" p-2 w-30 h-15 bg-gray-900 text-gray-400 border border-blue-800 rounded-3xl font-bold text-2xl hover:bg-blue-800"
+        onClick={handleSubmit}
+      >
+        Submit
+      </button>
+      </div>
+      {analysis && (
+  <div className="mt-6 p-4 bg-blue-50 border border-blue-200 rounded">
+    <h2 className="font-bold text-lg mb-2">Career Analysis</h2>
+    <p>{analysis}</p>
+    <h3 className="font-semibold mt-4">Your Answers:</h3>
+    <ul className="list-disc ml-6">
+      {readableAnswers.map((qa, idx) => (
+        <li key={idx}>
+          <strong>Q:</strong> {qa.question} <br />
+          <strong>A:</strong> {qa.answer}
+        </li>
+      ))}
+    </ul>
+  </div>
+)}
+    </div>
+  );
 }
-export default Quick
+
+export default Quick;
