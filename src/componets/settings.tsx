@@ -3,7 +3,7 @@ import { FaUser } from "react-icons/fa";
 function Settings() {
 
     return(
-        <div className="hidden flex-col items-center justify-center p-10 ">
+        <div className=" flex-col items-center justify-center p-10 ">
             <data className="flex flex-col items-center justify-center p-10">
                 <h1 className="text-xl font-bold pt-10">Your Profile</h1>
             <div className="flex  border border-black p-5 rounded-3xl bg-gray-200 shadow-lg">
