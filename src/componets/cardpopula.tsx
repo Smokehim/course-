@@ -1,3 +1,4 @@
+import { ContextLogProvider } from "./contextlog";
 
 const courses = [
     {
@@ -45,6 +46,7 @@ const courses = [
 export default function Course(){
     
     return(
+        <ContextLogProvider>
         <div className="flex-col justify-center">
             <h1 className="text-center text-2xl">Frequentry Course</h1>
             <div className="grid grid-cols-2 md:grid-cols-4 p-3 gap-5 rounded-lg">
@@ -55,6 +57,6 @@ export default function Course(){
                 ))}
             </div>
         </div>
+        </ContextLogProvider>
     )
 }
- 

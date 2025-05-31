@@ -1,12 +1,13 @@
 import { FaApper, FaFacebook, FaInstagram } from "react-icons/fa"
 import { FaXTwitter } from "react-icons/fa6"
-import { useEffect, useState, useContext } from "react"
+import {  useState, useContext } from "react"
 import { useNavigate } from "react-router";
 import { ContextLog } from "./componets/contextlog";
 
-const {setLoging} = useContext(ContextLog);
+
 
 function Login(){
+    const {setLoging} = useContext(ContextLog);
     const navigate = useNavigate();
     const [showLogin, setShowLogin] = useState(true);
     const [username, setName] = useState("");

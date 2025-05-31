@@ -3,6 +3,7 @@ import { useState } from "react"
 import { Link } from "react-router"
 import { ContextLog } from "./contextlog.tsx"
 import { useContext } from "react"
+import { FaGear } from "react-icons/fa6"
 export default function Navbar() {
     const [isOpen, setIsOpen] = useState(false)
     const toggleMenu = () => {
@@ -22,6 +23,7 @@ export default function Navbar() {
                 <li className="hover:text-blue-300"><Link to="/course">Course</Link></li>
                 <li className="hover:text-blue-300"><Link to="/service">Career</Link></li>
                 <li className="hover:text-blue-300"><Link to="/contact">Contact</Link></li>
+                <li className="hover:text-blue-300"><Link to="/setting"><FaGear className="font-bold " size={24}/></Link></li>
                 
             </ul> 
             <button className={`hidden md:${isLoggedIn ? "hidden" : "flex"} border md:justify-center p-2 border-gray-800 text-white rounded-3xl h-10 w-20 bg-gray-800 hover:border-blue-700 hover:bg-blue-700 font-semibold`}>

@@ -1,6 +1,6 @@
  import {FaAirbnb, FaElementor}  from "react-icons/fa"
 import { FaChartSimple, FaPerson } from "react-icons/fa6"
-import { Link } from "react-router"
+
 
 
  function CardInfo({dark = false}) {
