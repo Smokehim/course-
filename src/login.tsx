@@ -3,16 +3,19 @@ import { FaXTwitter } from "react-icons/fa6"
 import {  useState, useContext } from "react"
 import { useNavigate } from "react-router";
 import { ContextLog } from "./componets/contextlog";
+import { ContextAPI} from './componets/input'
 
 
 
 function Login(){
+    // const {addUsers, addEmail} = useContext(ContextAPI);
     const {setLoging} = useContext(ContextLog);
     const navigate = useNavigate();
     const [showLogin, setShowLogin] = useState(true);
     const [username, setName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [errors, setError] = useState("");
     async function handleSign(e){
         e.preventDefault()
         const postUser = async ()=>{
@@ -26,15 +29,17 @@ function Login(){
                     },
                     body:JSON.stringify(payloard)
                 })
-                const result = await postdata.text()
+                const result = await postdata.json()
                 console.log("data has been sent", result)
                 if (postdata.ok) {
                          // Successful login: redirect to home
+                    
                     navigate("/home");
                     setLoging(true);
                 } else {
-                     const data = await postdata.json();
+                     const data = await result.json();
                     alert(data.message);
+                    
                   }
             } catch (error) {
                 console.log("not able to post data", error)
@@ -47,22 +52,31 @@ function Login(){
         const payloard = {username, email, password }
         const postdat = async()=>{
             try {
-                const postdata = await fetch('http://localhost:1000/login',{
+                const postdata = await fetch('http://localhost:1000/login', {
                     method: 'POST',
-                        headers: {
+                    headers: {
                         "Content-Type": "application/json",
                     },
-                    body:JSON.stringify(payloard)
-                })
-                const result = await postdata.text()
-                console.log("data has been sent", result)
+                    body: JSON.stringify(payloard)
+                });
+                const getdata = await postdata.json(); // Only read once
+                console.log("data has been sent", getdata);
+                const results =  getdata.result
+                console.log("data has been sent", getdata);
+                
                 if (postdata.ok) {
-                         // Successful login: redirect to home
+                    // addUsers(results.userName)
+                    // addEmail(results.email)
                     navigate("/home");
+                    setLoging(true);
+
                 } else {
-                     const data = await postdata.json();
-                    alert(data.message);
-                  }
+                    console.log("getting nothing", getdata);
+                    setTimeout(()=>{
+                        setError("Login failed. Please try again.");
+                    },2000)
+                    
+                }
             } catch (error) {
                 console.log("not able to post data", error)
             }
@@ -75,9 +89,11 @@ function Login(){
         <div className="layout">
             <main className="flex justify-center">
                 <div className="flex justify-content-center p-9">
+                    
                     {showLogin && (
                         <form action="" onSubmit={handleSunmit}  className="flex-col p-2 border  w-100 border-gray-700 rounded-lg bg-gray-400 justify-center gap-3" method="post">
                             <h1 className="text-2xl text-center">Login</h1>
+                            {errors && <p className="text-red-500 text-center">{errors}</p>}
                             <div className="flex flex-col space-y-5 p-5">
                                 <h1 className="font-bold text-xl">Name</h1>
                                 <input
@@ -185,7 +201,9 @@ function Login(){
                             </div>
                         </form>
                          )}
+                    
                     </div>
+                    
             </main>
         </div>
     )

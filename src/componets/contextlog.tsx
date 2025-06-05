@@ -3,9 +3,9 @@ import { useState, createContext } from "react";
 export const ContextLog = createContext();
 
 export function ContextLogProvider({ children }) {
-    const [log, setLog] = useState(false);
+    const [loging, setLoging] = useState(false);
     return (
-        <ContextLog.Provider value={{ log, setLog }}>
+        <ContextLog.Provider value={{ loging, setLoging }}>
             {children}
         </ContextLog.Provider>
     );

@@ -11,10 +11,12 @@ import Login from "./login.tsx";
 import Setting from "./user.tsx";
 import Layout from "./Layout.tsx";
 import { ContextLogProvider } from "./componets/contextlog.tsx";
+import {ContextAPI } from './componets/input.tsx'
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <BrowserRouter>
-    <ContextLogProvider>
+    <ContextAPI value={undefined}>
+      <ContextLogProvider>
       <Routes>
         <Route path="/layout" element={<Layout />} />
         <Route path="/home" element={<Home />} />
@@ -26,6 +28,7 @@ createRoot(document.getElementById("root")!).render(
         <Route path="/setting" element={<Setting />} />
       </Routes>
     </ContextLogProvider>
+    </ContextAPI>
     </BrowserRouter>
   </StrictMode>
 );

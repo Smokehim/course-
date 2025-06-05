@@ -32,35 +32,23 @@ const db = mysql2.createConnection({
 //users
 app.post("/login", async (req, res) => {
   const { username, email, password } = req.body;
-
+  console.log(req.body)
   if (!username || !email || !password)
     return res.status(404).json({ message: "there is no user infor" });
 
   const sql = `SELECT * FROM Users WHERE email = ?`;
   db.query(sql, [email], async (error, result) => {
-    if (error)
-      return res
-        .status(404)
-        .json({ message: "not able to insert users", error });
+    if(error) return res.status(400).json({ message: "nothing happened",error });
+    console.log("here is your result", result.length)
     if (result.length === 0) {
       return res.status(401).json({ message: "Invalid email or password" });
     }
-
-    // Check if the user exists
-    // Compare the provided password with the hashed password in the database
-    // use proper variable name to easily convey meaning or what code is doing. its a good practice
-    // Uncomment the following lines if you want to use bcrypt for password hashing
-    
     const isMatch = await bcrpt.compare(password, result[0].password);
-
     if (!isMatch) {
-      return res.status(401).json({ message: "Invalid email or password" });
+      return res.status(401).json({ message: "Invalid  password" });
     }
    
-
-    // If the password matches, return the user data (excluding the password)
-    // It's a good practice to exclude sensitive information like passwords from the response
-    const { password: hashedPassword, ...userData } = result[0];
+    const { password:  hashedPassword, ...userData } = result[0];
     res.status(200).json({
       message: "Login successful",
       result: userData,
@@ -459,7 +447,7 @@ db.connect((error) => {
 
 db.connect(() => {
   const sql = `CREATE TABLE IF NOT EXISTS Users(userID INT AUTO_INCREMENT PRIMARY KEY, 
-        userName VARCHAR(250), email VARCHAR(250), password VARCHAR(250), created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, update_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        userName VARCHAR(250), email VARCHAR(250) UNIQUE, password VARCHAR(250), created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, update_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
          role ENUM('student', 'admin'))`;
   db.query(sql, (error, result) => {
     if (error) return console.error("not able to create user table", error);
@@ -680,9 +668,10 @@ InsertData();
 //     })
 // })
 // db.connect(()=>{
-//     const sql = `ALTER TABLE Suggestion ADD COLUMN userID INT NOT NULL`
+//     const sql = `ALTER TABLE Users ADD COLUMN  UNIQUE (email)`
 //     db.query(sql, (error,result)=>{
 //         if(error) return console.error("not able to create Suggestion table", error)
 //         console.log("Suggestion table has been created")
 //     })
 // })
+
