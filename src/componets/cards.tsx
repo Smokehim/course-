@@ -21,7 +21,7 @@ const data =[
         id: 3,
         img: medicine,
         title: 'Medicine',
-        description: 'Medical Neuroscience explores the functional organization and neurophysiology of the human central nervous system, while providing a neurobiological framework for understanding human behavior. In this course, you will discover the organization of the neural systems in the brain and spinal cord that mediate sensation, motivate bodily action, and integrate sensorimotor signals with memory, emotion and related faculties of cognition. ',
+        description: 'Medical Neuroscience explores the functional organization and neurophysiology of the human central nervous system, while providing a neurobiological framework for understanding human behavior. ',
         link:'https://www.coursera.org/learn/medical-neuroscience'
     },
     {

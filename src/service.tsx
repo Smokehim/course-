@@ -17,9 +17,7 @@ export default function Service() {
         <section className='flex center'>
           <Question/>
         </section>
-        <div className='flex justify-center pt-4'>
-          <h1>answers</h1>
-        </div>
+        
       </main>
       <footer className='pt-3'>
         <Footer/>

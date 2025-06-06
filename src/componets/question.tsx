@@ -252,6 +252,18 @@ function Quick() {
         </li>
       ))}
     </ul>
+    <div className="flex justify-center mt-4">
+      <button
+        className="border p-3 rounded-xl md:text-white md:border-gray-500 border-gray-500 w-25 hover:cursor-pointer hover:bg-blue-500"
+        onClick={() => {
+          setAnalysis("");
+          setReadableAnswers([]);
+          setSelected({}); 
+        }}
+      >
+        Clear
+      </button>
+    </div>
   </div>
 )}
     </div>

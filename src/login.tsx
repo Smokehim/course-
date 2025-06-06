@@ -1,5 +1,3 @@
-import { FaApper, FaFacebook, FaInstagram } from "react-icons/fa"
-import { FaXTwitter } from "react-icons/fa6"
 import {  useState, useContext } from "react"
 import { useNavigate } from "react-router";
 import { ContextLog } from "./componets/contextlog";
@@ -8,12 +6,12 @@ import { ContextAPI} from './componets/input'
 
 
 function Login(){
-    // const {addUsers, addEmail} = useContext(ContextAPI);
+     const {setUsers, setEmail} = useContext(ContextAPI);
     const {setLoging} = useContext(ContextLog);
     const navigate = useNavigate();
     const [showLogin, setShowLogin] = useState(true);
     const [username, setName] = useState("");
-    const [email, setEmail] = useState("");
+    const [email, setEmails] = useState("");
     const [password, setPassword] = useState("");
     const [errors, setError] = useState("");
     async function handleSign(e){
@@ -32,9 +30,9 @@ function Login(){
                 const result = await postdata.json()
                 console.log("data has been sent", result)
                 if (postdata.ok) {
-                         // Successful login: redirect to home
-                    
-                    navigate("/home");
+                  setUsers(result.userName) // or results.username, depending on your backend
+                  setEmail(result.email)
+                  navigate("/home");
                     setLoging(true);
                 } else {
                      const data = await result.json();
@@ -65,8 +63,8 @@ function Login(){
                 console.log("data has been sent", getdata);
                 
                 if (postdata.ok) {
-                    // addUsers(results.userName)
-                    // addEmail(results.email)
+                    setUsers(results.userName) // or results.username, depending on your backend
+                    setEmail(results.email)
                     navigate("/home");
                     setLoging(true);
 
@@ -86,126 +84,121 @@ function Login(){
     }  
 
     return(
-        <div className="layout">
-            <main className="flex justify-center">
-                <div className="flex justify-content-center p-9">
-                    
-                    {showLogin && (
-                        <form action="" onSubmit={handleSunmit}  className="flex-col p-2 border  w-100 border-gray-700 rounded-lg bg-gray-400 justify-center gap-3" method="post">
-                            <h1 className="text-2xl text-center">Login</h1>
-                            {errors && <p className="text-red-500 text-center">{errors}</p>}
-                            <div className="flex flex-col space-y-5 p-5">
-                                <h1 className="font-bold text-xl">Name</h1>
-                                <input
-                                onChange={(e) => setName(e.target.value)}
-                                 type="text"
-                                 value={username}
-                                className="border border-gray-500 p-2 bg-white rounded-2xl hover:border-gray-800 h-10 w-full"
-                                placeholder="Name"
-                                />
-
-                            </div>
-
-                            <div className="flex flex-col space-y-5 p-5">
-                                <h1 className="font-bold text-xl">Email</h1>
-                                <input
-                                onChange={(e) => setEmail(e.target.value)}
-                                value={email}
-                                type="email"
-                                className="border border-gray-500 p-2 bg-white rounded-2xl hover:border-gray-800 h-10 w-full"
-                                placeholder="Email"
-                                    />
-                            </div>  
-                            <div className="flex flex-col space-y-5 p-5">
-                                <h1 className="font-bold text-xl">Password</h1>
-                                <input
-                                onChange={(e) => setPassword(e.target.value)}
-                                value={password}
-                                type="password"
-                                className="border border-gray-500 p-2 bg-white rounded-2xl hover:border-gray-800 h-10 w-full"
-                                placeholder="Password"
-                                />
-                            </div> 
-                            <div className="flex gap-5 ">
-                                <div className="flex gap-3">
-                                    <input type="checkbox" name="" id="" />
-                                    <p>Kep me logged in</p>
-                                </div>
-                                <p className="text-left hover:text-blue-600 text-lg"><a  href="">forget password</a></p>
-                            </div>
-                            <div className="flex justify-center">
-                                <button className="border border-gray-800 text-white rounded-3xl h-10 w-60 px-10 bg-gray-800 hover:border-blue-700 hover:bg-blue-700 font-semibold">Login</button> 
-                            </div>
-                            <div className="flex">
-                                <p>Don't have an accout</p> 
-                                <p className="text-blue-600 hover:cursor-pointer font-lg" onClick={()=>{setShowLogin(false)}}><a href=""></a>Create account</p>
-                            </div>
-                            <p>continue with</p>
-                            <div className="flex justify-center gap-5 p-4">
-                                <FaFacebook size={40}/>
-                                <FaInstagram size={40}/>
-                                <FaXTwitter size={40}/>
-                                <FaApper size={40}/>
-                            </div>
-                            
-                        </form>
-                         )}
-                          {!showLogin && (
-                        <form action="" className="flex-col p-2 border w-100 border-gray-700 rounded-lg bg-gray-400 justify-center gap-3" method="post">
-                            <h1 className="text-3xl font-bold text-center">Signin</h1>
-                            <div className="flex flex-col space-y-5 p-5">
-                                <h1 className="font-bold text-xl">Name</h1>
-                                <input
-                                 type="text"
-                                 value={username}
-                                 onChange={(e)=>{setName(e.target.value)}}
-                                className="border border-gray-500 p-2 bg-white rounded-2xl hover:border-gray-800 h-10 w-full"
-                                placeholder="Name"
-                                />
-                            </div>
-
-                            <div className="flex flex-col space-y-5 p-5">
-                                <h1 className="font-bold text-xl">Email</h1>
-                                <input
-                                type="email"
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
-                                className="border border-gray-500 p-2 bg-white rounded-2xl hover:border-gray-800 h-10 w-full"
-                                placeholder="Email"
-                                    />
-                            </div>  
-                            <div className="flex flex-col space-y-5 p-5">
-                                <h1 className="font-bold text-xl">Password</h1>
-                                <input
-                                type="password"
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}
-                                className="border border-gray-500 p-2 bg-white rounded-2xl hover:border-gray-800 h-10 w-full"
-                                placeholder="Password"
-                                />
-                            </div> 
-                            
-                            <div className="flex justify-center">
-                                <button onClick={handleSign} className="border border-gray-800 text-white rounded-3xl h-10 w-60 px-10 bg-gray-800 hover:border-blue-700 hover:bg-blue-700 font-semibold">Signup</button> 
-                            </div>
-                            <div className="flex justify-center">
-                                <p>Have an accout</p> 
-                                <p className="text-blue-600 hover:cursor-pointer font-lg" onClick={()=>{setShowLogin(true)}}><a href="">Login</a></p>
-                            </div>
-                            <p className="text-center">continue with</p>
-                            <div className="flex justify-center gap-5 p-4">
-                                <FaFacebook size={40}/>
-                                <FaInstagram size={40}/>
-                                <FaXTwitter size={40}/>
-                                <FaApper size={40}/>
-                            </div>
-                        </form>
-                         )}
-                    
-                    </div>
-                    
-            </main>
+        <div className="layout bg-white min-h-screen">
+  <main className="flex items-stretch justify-center h-screen bg-gray-100">
+    <div className="grid grid-cols-1 md:grid-cols-2 w-full h-full">
+      {/* Welcome Section */}
+      <div className="md:flex hidden md:flex-col items-center justify-center text-white p-10 bg-blue-500 h-full">
+        <p className="text-6xl font-bold mb-4">CareeCampus</p>
+        <div className="text-center space-y-4">
+          <h1 className="text-xl font-semibold">
+            {showLogin ? "Hello, Friend" : "Welcome back"}
+          </h1>
+          <p className="text-gray-100">
+            {showLogin
+              ? "Enter your personal details and start journey with us"
+              : "To keep connected with us, please enter your personal information."}
+          </p>
         </div>
+        <div className="mt-6">
+          <button
+            onClick={() => setShowLogin(!showLogin)}
+            className="border border-white text-white rounded-3xl h-10 w-60 px-10 bg-transparent hover:bg-white hover:text-blue-500 font-semibold"
+          >
+            {showLogin ? "Signup" : "Login"}
+          </button>
+        </div>
+      </div>
+
+      {/* Form Section */}
+      <div className="flex items-center justify-center bg-blue-600 md:bg-gray-100 h-full">
+        <form
+          onSubmit={showLogin ? handleSunmit : handleSign}
+          className="w-full max-w-md md:bg-gray-500  p-8 rounded-lg shadow-xl space-y-6"
+        >
+          <h1 className="text-3xl font-bold text-center text-black">
+            {showLogin ? "Login" : "Signup"}
+          </h1>
+
+          {errors && showLogin && (
+            <p className="text-red-500 text-center">{errors}</p>
+          )}
+
+          <div>
+            <label className="block font-bold text-xl mb-2">Name</label>
+            <input
+              type="text"
+              value={username}
+              onChange={(e) => setName(e.target.value)}
+              className="w-full h-10 p-2 rounded-2xl bg-white border border-gray-500 hover:border-blue-600"
+              placeholder="Name"
+            />
+          </div>
+
+          <div>
+            <label className="block font-bold text-xl mb-2">Email</label>
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmails(e.target.value)}
+              className="w-full h-10 p-2 rounded-2xl bg-white border border-gray-500 hover:border-blue-600"
+              placeholder="Email"
+            />
+          </div>
+
+          <div>
+            <label className="block font-bold text-xl mb-2">Password</label>
+            <input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="w-full h-10 p-2 rounded-2xl bg-white border border-gray-500 hover:border-blue-600"
+              placeholder="Password"
+            />
+          </div>
+
+          {showLogin && (
+            <div className="flex justify-between items-center text-sm">
+              <label className="flex items-center space-x-2">
+                <input type="checkbox" />
+                <span>Keep me logged in</span>
+              </label>
+              <a href="#" className="text-blue-600 hover:underline">
+                Forgot password?
+              </a>
+            </div>
+          )}
+
+          <div className="flex justify-center">
+            <button
+              type="submit"
+              className="bg-gray-800 text-white w-60 h-10 rounded-3xl font-semibold hover:bg-blue-700"
+            >
+              {showLogin ? "Login" : "Signup"}
+            </button>
+          </div>
+
+          <div className="text-center text-black md:hidden flex md:text-blue-500">
+            <p>
+              {showLogin
+                ? "Don't have an account?"
+                : "Already have an account?"}
+              <span
+                onClick={() => setShowLogin(!showLogin)}
+                className="ml-2    hover:underline cursor-pointer"
+              >
+                {showLogin ? "Create Account" : "Login"}
+              </span>
+            </p>
+          </div>
+        </form>
+      </div>
+    </div>
+  </main>
+</div>
+
+
     )
 }
 export default Login
+

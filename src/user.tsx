@@ -12,7 +12,7 @@ function User(){
             <Header/>
             <main>
                 <section className="flex h-screen pt-10 space-y-3 gap-9">
-                    <div className="flex md:flex lg:flex-col w-screen top-17 items-baseline gap-10 fixed lg:top-20 lg:left-0 lg:w-1/4 lg:h-[calc(100vh-4rem)] bg-gray-800 text-white p-5 ">
+                    <div className="flex md:flex lg:flex-col w-full top-17 items-baseline gap-10 fixed lg:top-18 lg:left-0 lg:w-1/4 lg:h-[calc(100vh-4rem)] bg-gray-800 text-white p-5 ">
                         <div className="flex gap-3 items-baseline ">
                             <FaCog size={23} />
                             <h2 className="md:text-xl text-l flex font-bold mb-4 ">User Settings</h2> 

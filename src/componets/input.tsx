@@ -1,23 +1,21 @@
-
-
-import { createContext, useState } from "react";
+import { createContext, useState, ReactNode } from "react";
 
 interface ContextProps {
   users: string;
-  addUsers: (value: string) => void;
-  emails: string;
-  addEmail: (value: string) => void;
+  setUsers: (value: string) => void;
+  email: string;
+  setEmail: (value: string) => void;
 }
 
 export const ContextAPI = createContext<ContextProps | undefined>(undefined);
 
-export function GetInput() {
-  const [users, addUsers] = useState('');
-  const [emails, addEmail] = useState('');
+export function GetInput({ children }: { children: ReactNode }) {
+  const [users, setUsers] = useState("");
+  const [email, setEmail] = useState("");
 
   return (
-    <ContextAPI.Provider value={{ users, addUsers, emails, addEmail }}>
-      
+    <ContextAPI.Provider value={{ users, setUsers, email, setEmail }}>
+      {children}
     </ContextAPI.Provider>
   );
 }

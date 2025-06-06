@@ -75,21 +75,41 @@ app.post("/signin", async (req, res) => {
   });
 });
 
-app.put("/putusers/:id", (req, res) => {
-  const { username, email, password, role, userID } = req.body;
-  if (!userID)
-    return res.status(404).json({ message: "not able to get userID" });
-  const sql = `UPDATE Users SET username=  COALESCE (?, username), email=COALESCE (?, email), password=COALESCE (?, password), role=COALESCE (?, role) WHERE userID=?`;
-  db.query(sql, [username, email, password, role, userID], (error, result) => {
-    if (error)
-      return res
-        .status(404)
-        .json({ message: "not able to update users", error });
-    if (!result.affectedRows)
-      return res.status(400).json({ message: "no rows affected" });
-    res.status(200).json({ message: "users have been updated", result });
-  });
+app.put("/putusers", async (req, res) => {
+  const { username, email, password, role } = req.body;
+
+  if (!email)
+    return res.status(401).json({ message: "Missing email" });
+  const  hashedPassword = await  bcrpt.hash(password, 10);
+  const sql = `
+    UPDATE Users 
+    SET 
+      username = COALESCE(?, username), 
+      password = COALESCE(?, password), 
+      role = COALESCE(?, role)
+    WHERE email = ?
+  `;
+
+  db.query(
+    sql,
+    [username, hashedPassword, role, email],
+    (error, result) => {
+      if (error) {
+        return res.status(500).json({
+          message: "Not able to update user",
+          error,
+        });
+      }
+
+      if (!result.affectedRows) {
+        return res.status(400).json({ message: "No user found with that email" });
+      }
+
+      res.status(200).json({ message: "User updated successfully", result });
+    }
+  );
 });
+
 app.get("/getusers", (req, res) => {
   const sql = `SELECT * FROM Users`;
 
@@ -423,10 +443,7 @@ app.post("/feedback", async (req, res) => {
     await transporter.sendMail(mailOptions);
 
     // Respond to frontend
-    return res.json({
-      message: "Feedback received, analyzed, and emailed.",
-      analysis
-    });
+    
   } catch (error) {
     return res.status(500).json({ message: "server not working", error });
   }
